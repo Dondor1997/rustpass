@@ -5,4 +5,3 @@ authors = ["Dominik Trippel <dominik-trippel@arcor.de>"]
 edition = "2018"
 
 [dependencies]
-getopts = "0.2"
