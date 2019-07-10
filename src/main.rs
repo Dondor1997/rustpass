@@ -5,6 +5,8 @@ extern crate dirs;
 use clap::{Arg, App};
 use std::path::PathBuf;
 
+mod entry;
+
 fn main() {
     let matches = App::new("rustpass")
         .version(crate_version!())
