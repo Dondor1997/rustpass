@@ -4,8 +4,31 @@ extern crate dirs;
 
 use clap::{Arg, App};
 use std::path::PathBuf;
+use std::collections::HashMap;
+use entry::Entry;
+use std::fs::{read, write};
+use std::io;
 
 mod entry;
+
+
+fn create_db(path: &str) -> HashMap<String, Entry> {
+    let map: HashMap<String, Entry> = HashMap::new();
+    map
+}
+
+fn read_db(path: &str) -> HashMap<String, Entry> {
+   let file = read(&path).unwrap();
+
+    let hashmap: HashMap<String, Entry> = bincode::deserialize(&file).unwrap();
+    hashmap
+}
+
+fn write_db(hashmap: HashMap<String, Entry>, path: &str) -> std::io::Result<()> {
+    let encoded = bincode::serialize(&hashmap).unwrap();
+    write(&path, encoded)?;
+    Ok(())
+}
 
 fn main() {
     let matches = App::new("rustpass")
@@ -34,10 +57,25 @@ fn main() {
         .get_matches();
 
     let mut default: PathBuf  = dirs::home_dir().unwrap();
-    default.push("rustpass.db");
+    default.push(".rustpass.db");
 
     let path = matches
         .value_of("path")
         .unwrap_or(default.to_str().unwrap());
 
+    let mode = matches.value_of("mode").unwrap();
+    let key = matches.value_of("key").unwrap();
+
+    let mut db: HashMap<String, Entry> = match mode {
+        "init" => create_db(path),
+        _ => read_db(path),
+    };
+    
+    if mode == "insert" {
+        //db.insert(key, 
+    } else {
+
+    }
+
+    write_db(db, path);
 }

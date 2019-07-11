@@ -1,5 +1,7 @@
 use std::fmt;
+use serde::{Serialize, Deserialize};
 
+#[derive(Serialize, Deserialize, PartialEq)]
 pub struct Entry {
     title: String,
     username: String,
