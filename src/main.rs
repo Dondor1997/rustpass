@@ -1,16 +1,15 @@
 #[macro_use]
 extern crate clap;
 extern crate dirs;
+extern crate rpassword;
 
 use clap::{Arg, App};
 use std::path::PathBuf;
 use std::collections::HashMap;
 use entry::Entry;
 use std::fs::{read, write};
-use std::io;
 
 mod entry;
-
 
 fn create_db(path: &str) -> HashMap<String, Entry> {
     let map: HashMap<String, Entry> = HashMap::new();
@@ -66,7 +65,7 @@ fn main() {
     let mode = matches.value_of("mode").unwrap();
     let key = matches.value_of("key").unwrap();
 
-    let mut db: HashMap<String, Entry> = match mode {
+    let db: HashMap<String, Entry> = match mode {
         "init" => create_db(path),
         _ => read_db(path),
     };
@@ -77,5 +76,5 @@ fn main() {
 
     }
 
-    write_db(db, path);
+    write_db(db, path).unwrap();
 }
