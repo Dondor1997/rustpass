@@ -65,16 +65,17 @@ fn main() {
     let mode = matches.value_of("mode").unwrap();
     let key = matches.value_of("key").unwrap();
 
-    let db: HashMap<String, Entry> = match mode {
+    let mut db: HashMap<String, Entry> = match mode {
         "init" => create_db(path),
         _ => read_db(path),
     };
     
-    if mode == "insert" {
-        //db.insert(key, 
-    } else {
+    let passphrase = rpassword::read_password_from_tty(Some("Please enter passphrase: ")).unwrap();
 
-    }
+    if mode == "insert" {
+        let entry = Entry::new(key.to_string(), passphrase);
+        db.insert(key.to_string(), entry); 
+    } 
 
     write_db(db, path).unwrap();
 }

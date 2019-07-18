@@ -12,12 +12,11 @@ pub struct Entry {
 
 impl Entry {
     
-    pub fn new(passphrase: String) -> Entry {
-        let password = rpassword::read_password_from_tty(Some("Password:")).unwrap();
-        let title = read_from_stdin("Identifier: ");
+    pub fn new(title: String, passphrase: String) -> Entry {
         let username = read_from_stdin("Username: ");
+        let password = rpassword::read_password_from_tty(Some("Password:")).unwrap();
+        println!("");
         let notes = read_from_stdin("Additional Notes: ");
-
         Entry { title, username, password, notes }
     }
 
@@ -40,13 +39,14 @@ impl Entry {
 
 impl fmt::Display for Entry {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}\r\n Username: {}\r\n Password: {}\r\n Notes: {}", self.title, self.username, self.password, self.notes)
+        write!(f, " Key: {}\r\n Username: {}\r\n Password: {}\r\n Notes: {}", self.title, self.username, self.password, self.notes)
     }
 }
 
 fn read_from_stdin(prompt: &str) -> String {
-    print!("{}", prompt);
+    println!("{}", prompt);
     let mut buffer = String::new();
-    io::stdin().read_to_string(&mut buffer).unwrap();
-    buffer
+    io::stdin().read_line(&mut buffer).unwrap();
+    println!("");
+    buffer.trim().to_string()
 }
