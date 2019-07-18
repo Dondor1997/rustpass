@@ -1,4 +1,4 @@
-use std::{fmt, io::{self, Read}};
+use std::{fmt, io};
 use serde::{Serialize, Deserialize};
 use rpassword;
 

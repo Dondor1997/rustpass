@@ -70,7 +70,10 @@ fn main() {
         _ => read_db(path),
     };
     
-    let passphrase = rpassword::read_password_from_tty(Some("Please enter passphrase: ")).unwrap();
+    let passphrase = match mode {
+        "init" => key.to_string(),
+        _ => rpassword::read_password_from_tty(Some("Please enter passphrase: ")).unwrap(),
+    };
 
     if mode == "insert" {
         let entry = Entry::new(key.to_string(), passphrase);
