@@ -78,7 +78,16 @@ fn main() {
     if mode == "insert" {
         let entry = Entry::new(key.to_string(), passphrase);
         db.insert(key.to_string(), entry); 
-    } 
+    } else if mode == "get" {
+        let entry = db.get(key).expect("No database entry under this key");
+        println!("{}", entry);
+    } else if mode == "delete" {
+        
+    } else if mode == "search" {
+
+    } else if mode == "list" {
+        
+    }
 
     write_db(db, path).unwrap();
 }
