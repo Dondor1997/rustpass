@@ -17,7 +17,7 @@ fn create_db(path: &str) -> HashMap<String, Entry> {
 }
 
 fn read_db(path: &str) -> HashMap<String, Entry> {
-   let file = read(&path).unwrap();
+    let file = read(&path).unwrap();
 
     let hashmap: HashMap<String, Entry> = bincode::deserialize(&file).unwrap();
     hashmap
@@ -79,11 +79,13 @@ fn main() {
         let entry = db.get(key).expect("No database entry under this key");
         println!("{}", entry);
     } else if mode == "delete" {
-        
+        db.remove(key).expect("No database entry under this key");
     } else if mode == "search" {
 
     } else if mode == "list" {
-        
+        for val in db.values() {
+            println!("{}", val);
+        }
     }
 
     write_db(db, path).unwrap();
