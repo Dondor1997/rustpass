@@ -17,7 +17,7 @@ fn create_db(path: &str) -> HashMap<String, Entry> {
 }
 
 fn read_db(path: &str) -> HashMap<String, Entry> {
-   let file = read(&path).unwrap();
+    let file = read(&path).unwrap();
 
     let hashmap: HashMap<String, Entry> = bincode::deserialize(&file).unwrap();
     hashmap
@@ -61,5 +61,4 @@ fn main() {
     let path = matches
         .value_of("path")
         .unwrap_or(default.to_str().unwrap());
-
 }
