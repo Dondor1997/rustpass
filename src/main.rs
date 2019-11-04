@@ -62,32 +62,4 @@ fn main() {
         .value_of("path")
         .unwrap_or(default.to_str().unwrap());
 
-    let mode = matches.value_of("mode").unwrap();
-    let key = matches.value_of("key").unwrap();
-
-    let mut db: HashMap<String, Entry> = match mode {
-        "init" => create_db(path),
-        _ => read_db(path),
-    };
-    
-    let passphrase = match mode {
-        "init" => key.to_string(),
-        _ => rpassword::read_password_from_tty(Some("Please enter passphrase: ")).unwrap(),
-    };
-
-    if mode == "insert" {
-        let entry = Entry::new(key.to_string(), passphrase);
-        db.insert(key.to_string(), entry); 
-    } else if mode == "get" {
-        let entry = db.get(key).expect("No database entry under this key");
-        println!("{}", entry);
-    } else if mode == "delete" {
-        
-    } else if mode == "search" {
-
-    } else if mode == "list" {
-        
-    }
-
-    write_db(db, path).unwrap();
 }
