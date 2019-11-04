@@ -1,6 +1,5 @@
 use std::{fmt, io};
 use serde::{Serialize, Deserialize};
-use rpassword;
 
 #[derive(Serialize, Deserialize, PartialEq)]
 pub struct Entry {
@@ -12,11 +11,10 @@ pub struct Entry {
 
 impl Entry {
     
-    pub fn new(title: String, passphrase: String) -> Entry {
-        let username = read_from_stdin("Username: ");
-        let password = rpassword::read_password_from_tty(Some("Password:")).unwrap();
-        println!("");
-        let notes = read_from_stdin("Additional Notes: ");
+    pub fn new(title: String, username: String, password: String, notes: String) -> Entry {
+        let username = username;
+        let password = password;
+        let notes = notes;
         Entry { title, username, password, notes }
     }
 
