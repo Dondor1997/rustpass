@@ -83,6 +83,8 @@ fn main() {
                          .takes_value(true)
                          .required(true)
                          .value_name("ENTRY")))
+        .subcommand(SubCommand::with_name("init")
+                    .about("initialise an empty database"))
         .get_matches();
 
     let mut default: PathBuf  = dirs::home_dir().unwrap();
