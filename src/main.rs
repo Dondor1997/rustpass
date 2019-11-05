@@ -6,29 +6,9 @@ extern crate crypto;
 
 use clap::{Arg, App, SubCommand};
 use std::path::PathBuf;
-use std::collections::BTreeMap;
-use entry::Entry;
-use std::fs::{read, write};
 
 mod entry;
-
-fn create_db(path: &str) -> BTreeMap<String, Entry> {
-    let map: BTreeMap<String, Entry> = BTreeMap::new();
-    map
-}
-
-fn read_db(path: &str) -> BTreeMap<String, Entry> {
-    let file = read(&path).unwrap();
-
-    let map: BTreeMap<String, Entry> = bincode::deserialize(&file).unwrap();
-    map
-}
-
-fn write_db(map: BTreeMap<String, Entry>, path: &str) -> std::io::Result<()> {
-    let encoded = bincode::serialize(&map).unwrap();
-    write(&path, encoded)?;
-    Ok(())
-}
+mod database_io;
 
 fn main() {
     let matches = App::new("rustpass")
@@ -94,4 +74,16 @@ fn main() {
     let path = matches
         .value_of("path")
         .unwrap_or(default.to_str().unwrap());
+
+    if let Some(_) = matches.subcommand_matches("init") {
+        database_io::create_db(&path);
+    }
+    
+    let database = database_io::read_db(&path);
+
+    if let Some(command) = matches.subcommand_matches("get") {
+        let entry = command.value_of("entry").unwrap();
+        println!("{}", database.get(entry).unwrap());
+    }
+
 }
