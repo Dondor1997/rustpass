@@ -2,29 +2,30 @@
 extern crate clap;
 extern crate dirs;
 extern crate rpassword;
+extern crate crypto;
 
 use clap::{Arg, App, SubCommand};
 use std::path::PathBuf;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use entry::Entry;
 use std::fs::{read, write};
 
 mod entry;
 
-fn create_db(path: &str) -> HashMap<String, Entry> {
-    let map: HashMap<String, Entry> = HashMap::new();
+fn create_db(path: &str) -> BTreeMap<String, Entry> {
+    let map: BTreeMap<String, Entry> = BTreeMap::new();
     map
 }
 
-fn read_db(path: &str) -> HashMap<String, Entry> {
+fn read_db(path: &str) -> BTreeMap<String, Entry> {
     let file = read(&path).unwrap();
 
-    let hashmap: HashMap<String, Entry> = bincode::deserialize(&file).unwrap();
-    hashmap
+    let map: BTreeMap<String, Entry> = bincode::deserialize(&file).unwrap();
+    map
 }
 
-fn write_db(hashmap: HashMap<String, Entry>, path: &str) -> std::io::Result<()> {
-    let encoded = bincode::serialize(&hashmap).unwrap();
+fn write_db(map: BTreeMap<String, Entry>, path: &str) -> std::io::Result<()> {
+    let encoded = bincode::serialize(&map).unwrap();
     write(&path, encoded)?;
     Ok(())
 }
