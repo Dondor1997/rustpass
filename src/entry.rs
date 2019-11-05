@@ -1,4 +1,4 @@
-use std::{fmt, io};
+use std::fmt;
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, PartialEq)]
@@ -39,12 +39,4 @@ impl fmt::Display for Entry {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, " Key: {}\r\n Username: {}\r\n Password: {}\r\n Notes: {}", self.title, self.username, self.password, self.notes)
     }
-}
-
-fn read_from_stdin(prompt: &str) -> String {
-    println!("{}", prompt);
-    let mut buffer = String::new();
-    io::stdin().read_line(&mut buffer).unwrap();
-    println!("");
-    buffer.trim().to_string()
 }
