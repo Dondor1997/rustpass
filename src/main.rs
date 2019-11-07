@@ -72,19 +72,27 @@ fn main() {
     let mut default: PathBuf  = dirs::home_dir().unwrap();
     default.push(".local/share/rustpass/");
 
-    let path = matches
+    let dirpath = matches
         .value_of("path")
         .unwrap_or(default.to_str().unwrap());
 
+    let datapath = format!("{}{}", &dirpath, "rustpass.db");
+
+    match matches.subcommand(){
+        ("init", Some(key)) => {},
+        ("add", Some(key)) => {},
+        ("del", Some(key)) => {},
+        ("get", Some(key)) => {},
+        ("list", Some(key)) => {},
+        ("search", Some(key)) => {},
+        _                   => {},
+    }
+
+
     if let Some(_) = matches.subcommand_matches("init") {
-        database_io::create_db(&path);
-    }
-    
-    let database = database_io::read_db(&path);
-
-    if let Some(command) = matches.subcommand_matches("get") {
-        let entry = command.value_of("entry").unwrap();
-        println!("{}", database.get(entry).unwrap());
+        println!("Initialise database at {}", &dirpath);
+        database_io::create_db(&dirpath);
     }
 
+    let database = database_io::read_db(&datapath);
 }
