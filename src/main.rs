@@ -60,11 +60,7 @@ fn main() {
                          .required(true)
                          .value_name("ENTRY")))
         .subcommand(SubCommand::with_name("list")
-                    .about("print all database entrys")
-                    .arg(Arg::with_name("entry")
-                         .takes_value(true)
-                         .required(true)
-                         .value_name("ENTRY")))
+                    .about("print all database entrys"))
         .subcommand(SubCommand::with_name("init")
                     .about("initialise an empty database"))
         .get_matches();
@@ -79,12 +75,26 @@ fn main() {
     let datapath = format!("{}{}", &dirpath, "rustpass.db");
 
     match matches.subcommand(){
-        ("init", Some(key)) => {},
-        ("add", Some(key)) => {},
-        ("del", Some(key)) => {},
-        ("get", Some(key)) => {},
-        ("list", Some(key)) => {},
-        ("search", Some(key)) => {},
+        ("init", Some(_)) => {
+            database_io::create_db(&dirpath);
+        },
+        ("add", Some(key)) => {
+            let database = database_io::read_db(&datapath);
+        },
+        ("del", Some(key)) => {
+            let mut database = database_io::read_db(&datapath);
+            let key = key.value_of("entry").unwrap();
+            database.remove(key);
+        },
+        ("get", Some(key)) => {
+            let database = database_io::read_db(&datapath);
+        },
+        ("list", Some(_)) => {
+            let database = database_io::read_db(&datapath);
+        },
+        ("search", Some(key)) => {
+            let database = database_io::read_db(&datapath);
+        },
         _                   => {},
     }
 
