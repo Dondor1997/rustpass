@@ -3,6 +3,7 @@ extern crate clap;
 extern crate dirs;
 extern crate rpassword;
 extern crate crypto;
+extern crate getrandom;
 
 use clap::{Arg, App, SubCommand};
 use std::path::PathBuf;
@@ -31,13 +32,13 @@ fn main() {
              .short("v")
              .multiple(true)
              .help("Sets the level of verbosity"))
-        .subcommand(SubCommand::with_name("insert")
-                    .about("insert new database entry")
+        .subcommand(SubCommand::with_name("add")
+                    .about("add a new database entry")
                     .arg(Arg::with_name("entry")
                          .takes_value(true)
                          .required(true)
                          .value_name("ENTRY")))
-        .subcommand(SubCommand::with_name("delete")
+        .subcommand(SubCommand::with_name("del")
                     .about("delete a database entry")
                     .arg(Arg::with_name("entry")
                          .takes_value(true)
