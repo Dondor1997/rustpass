@@ -80,6 +80,7 @@ fn main() {
         },
         ("add", Some(key)) => {
             let database = database_io::read_db(&datapath);
+            let key = key.value_of("entry").unwrap();
         },
         ("del", Some(key)) => {
             let mut database = database_io::read_db(&datapath);
@@ -88,12 +89,18 @@ fn main() {
         },
         ("get", Some(key)) => {
             let database = database_io::read_db(&datapath);
+            let key = key.value_of("entry").unwrap();
+            print!("{}", database.get(key).expect("No database entry for given key"));
         },
         ("list", Some(_)) => {
             let database = database_io::read_db(&datapath);
+            for i in database.values() {
+                println!("{}", i);
+            }
         },
         ("search", Some(key)) => {
             let database = database_io::read_db(&datapath);
+            let key = key.value_of("entry").unwrap();
         },
         _                   => {},
     }
