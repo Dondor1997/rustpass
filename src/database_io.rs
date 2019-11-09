@@ -1,6 +1,6 @@
 use::std::collections::BTreeMap;
 use crate::entry::Entry;
-use std::fs::{read, write};
+use std::fs::{read, write, create_dir};
 use getrandom;
 
 pub fn create_db(path: &str) -> std::io::Result<()> {
@@ -10,6 +10,7 @@ pub fn create_db(path: &str) -> std::io::Result<()> {
     let database_path = format!("{}{}", path, "rustpass.db");
     let secret_path = format!("{}{}", path, "secret.env");
 
+    create_dir(&path)?;
     write(&secret_path, secret);
     write_db(&database_path, map);
     Ok(())
