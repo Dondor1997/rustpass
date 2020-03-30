@@ -2,8 +2,6 @@
 extern crate clap;
 extern crate dirs;
 extern crate rpassword;
-extern crate crypto;
-extern crate getrandom;
 
 use clap::{Arg, App, SubCommand};
 use std::path::PathBuf;
