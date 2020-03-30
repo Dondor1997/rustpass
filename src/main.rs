@@ -8,8 +8,8 @@ extern crate getrandom;
 use clap::{Arg, App, SubCommand};
 use std::path::PathBuf;
 
-mod entry;
-mod database_io;
+mod db_io;
+mod usr_io;
 
 fn main() {
     let matches = App::new("rustpass")
@@ -76,40 +76,25 @@ fn main() {
 
     match matches.subcommand(){
         ("init", Some(_)) => {
-            database_io::create_db(&dirpath);
+
         },
         ("add", Some(key)) => {
-            let database = database_io::read_db(&datapath);
-            let key = key.value_of("entry").unwrap();
+
         },
         ("del", Some(key)) => {
-            let mut database = database_io::read_db(&datapath);
-            let key = key.value_of("entry").unwrap();
-            database.remove(key);
+
         },
         ("get", Some(key)) => {
-            let database = database_io::read_db(&datapath);
-            let key = key.value_of("entry").unwrap();
-            print!("{}", database.get(key).expect("No database entry for given key"));
+
         },
         ("list", Some(_)) => {
-            let database = database_io::read_db(&datapath);
-            for i in database.values() {
-                println!("{}", i);
-            }
+            
         },
         ("search", Some(key)) => {
-            let database = database_io::read_db(&datapath);
-            let key = key.value_of("entry").unwrap();
+
         },
-        _                   => {},
+        _                   => {
+
+        },
     }
-
-
-    if let Some(_) = matches.subcommand_matches("init") {
-        println!("Initialise database at {}", &dirpath);
-        database_io::create_db(&dirpath);
-    }
-
-    let database = database_io::read_db(&datapath);
 }
